@@ -8,8 +8,8 @@ import com.vakuor.kingsandgoldmines.Main;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = "kingsgamecfg";
-		config.width = 640;
+		config.title = "Knights and swords";
+		config.width = 800;
 		config.height = 480;
 
 		new LwjglApplication(new Main(), config);
