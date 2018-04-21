@@ -10,11 +10,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Main extends Game {
 	SpriteBatch batch;
 	Texture img;
-	
+	long javaHeap;//лишнее
+	long nativeHeap;//лишнее
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+
+
 	}
 
 	@Override
@@ -23,6 +27,10 @@ public class Main extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(img, 0, 0);
+
+        javaHeap = Gdx.app.getJavaHeap();//потребление памяти Java//лишнее
+        nativeHeap = Gdx.app.getNativeHeap();//нативной heap памяти//лишнее
+
 		batch.end();
 	}
 	
