@@ -3,6 +3,7 @@ package com.vakuor.kingsandgoldmines.desktop;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.vakuor.kingsandgoldmines.Main;
 
 public class DesktopLauncher {
@@ -12,6 +13,8 @@ public class DesktopLauncher {
 		config.width = 800;
 		config.height = 480;
 
+		//TexturePacker.process("input/Head", "output/Head", "Head");
+		//TexturePacker.process("input/Archer", "output/Archer", "Archer");
 		new LwjglApplication(new Main(), config);
 	}
 }
