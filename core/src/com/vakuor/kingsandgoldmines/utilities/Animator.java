@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.Iterator;
@@ -24,6 +25,8 @@ public class Animator implements ApplicationListener {
     public TextureRegion[] walkFrames;
     public SpriteBatch spriteBatch;
     public TextureRegion currentFrame;
+
+    private Array<TextureAtlas.AtlasRegion> frames;
 
     private Animation animation;
     private TextureAtlas textureAtlas;
@@ -48,28 +51,32 @@ public class Animator implements ApplicationListener {
         stateTime = 0f;
     }
 
-
-    public void create(TextureAtlas textureAtlas, float frameTime){
-        this.textureAtlas = textureAtlas;
-        textureAtlas.dispose();
-        animation = new Animation(frameTime,textureAtlas.getRegions());
+    public void create(String action, float frameTime){
+        //textureAtlas = new TextureAtlas(internalPackFile);
+        frames =  textureAtlas.findRegions(action);
+        animation = new Animation(frameTime,frames);
         stateTime = 0f;
     }
 
-    public void create(String internalPackFile, float frameTime){
+    public void create(TextureAtlas textureAtlas, String action, float frameTime){//Vector a
+        this.textureAtlas = textureAtlas;
+        textureAtlas.dispose();
+        create(action, frameTime);
+    }
+
+    public void create(String internalPackFile, String action, float frameTime){
         textureAtlas = new TextureAtlas(internalPackFile);
-        animation = new Animation(frameTime,textureAtlas.getRegions());
-        stateTime = 0f;
+        create(action, frameTime);
     }
 
     private void iterat(){///////////////////////////////////////////////
-        Iterator<TextureAtlas.AtlasRegion> reg = atlasRegions.iterator();
+       /* Iterator<TextureAtlas.AtlasRegion> reg = atlasRegions.iterator();
         while (reg.hasNext()) {
             TextureAtlas.AtlasRegion currentReg = reg.next();
             //raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
 
             //reg.remove();
-        }
+        }*/
         /*while (iter.hasNext()) {
             Rectangle raindrop = iter.next();
             raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
@@ -102,7 +109,7 @@ public class Animator implements ApplicationListener {
     }
 
     public void render(boolean a) {
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         stateTime += Gdx.graphics.getDeltaTime();
 
         currentFrame = (TextureRegion) animation.getKeyFrame(stateTime, true);

@@ -13,8 +13,8 @@ public class DesktopLauncher {
 		config.width = 800;
 		config.height = 480;
 
-		//TexturePacker.process("input/Head", "output/Head", "Head");
-		//TexturePacker.process("input/Archer", "output/Archer", "Archer");
+		//TexturePacker.process("input/Head", "output/Head", "Heads");
+		//TexturePacker.process("input/Archer", "output/Archer", "Archers");
 		new LwjglApplication(new Main(), config);
 	}
 }

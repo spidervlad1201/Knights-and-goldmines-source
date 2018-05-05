@@ -45,7 +45,6 @@ public class Menu implements Screen {
 
     @Override
     public void show() {
-        stage = new Stage(new ScreenViewport(camera));
     }
 
     @Override
