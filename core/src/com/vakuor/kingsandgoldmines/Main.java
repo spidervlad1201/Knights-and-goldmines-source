@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.vakuor.kingsandgoldmines.view.ActorScreen;
+import com.vakuor.kingsandgoldmines.view.Bod2DLesson;
 import com.vakuor.kingsandgoldmines.view.GameScreenForStudy;
 import com.vakuor.kingsandgoldmines.view.MainGameScreen;
 import com.vakuor.kingsandgoldmines.view.Menu;
@@ -31,7 +32,7 @@ public class Main extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-        this.setScreen(new MainGameScreen(this));
+        this.setScreen(new Bod2DLesson(this));
 //		camera = new OrthographicCamera();
 //		camera.setToOrtho(false, 800, 480);
 

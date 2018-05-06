@@ -6,33 +6,30 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.vakuor.kingsandgoldmines.Main;
-
-import sun.rmi.runtime.Log;
 
 public class MainGameScreen implements Screen {
 
     Main game;
     Stage stage;
-    Texture background;
+    private World world;
 
     private OrthographicCamera camera;
 
     public MainGameScreen (Main game){
         this.game = game;
-
     }
 
     @Override
     public void show() {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         stage = new Stage(new ScreenViewport(camera));
+        //Texture background = new Texture("maps/"+mapName+"background.png");
         camera.position.set(stage.getWidth()/2,stage.getHeight()/2,0);
+
+
     }
 
     @Override
