@@ -23,37 +23,38 @@ import com.vakuor.kingsandgoldmines.utilities.Animator;
 public class GameScreenForStudy implements Screen {
     final Main game;
 
-    Texture dropImage;
-    Texture bucketImage;
+    ////Texture dropImage;
+    ////Texture bucketImage;
     Animator animator;
-    TextureAtlas atlasArcher;
+    ////TextureAtlas atlasArcher;
     /*TextureAtlas.AtlasRegion archerRegion;
     TextureAtlas.AtlasRegion archerRegion2;
     TextureAtlas.AtlasRegion archerRegion3;
     TextureAtlas.AtlasRegion lastRegion = archerRegion;
     int lastkeyframe=1;*/
-    Sound dropSound;
+    ////Sound dropSound;
     Music rainMusic;
     OrthographicCamera camera;
-    Rectangle bucket;
-    Array<Rectangle> raindrops;
-    long lastDropTime;
-    int dropsGathered;
+    ////Rectangle bucket;
+    ////Array<Rectangle> raindrops;
+    ////long lastDropTime;
+    ////int dropsGathered;
     float deltaTime=0;
 
     public GameScreenForStudy(final Main gam) {
         this.game = gam;
+        System.out.println("GameScreenForStudy.constructor\n");
 
         // загрузка изображений для капли и ведра, 64x64 пикселей каждый
-        dropImage = new Texture(Gdx.files.internal("badlogic.jpg"));
-        bucketImage = new Texture(Gdx.files.internal("knight.png"));
+        ////dropImage = new Texture(Gdx.files.internal("badlogic.jpg"));
+        ////bucketImage = new Texture(Gdx.files.internal("knight.png"));
         /*atlasArcher = new TextureAtlas("output/Archer/Archer.atlas");
         archerRegion = atlasArcher.findRegion("archerBody1");
         archerRegion2 = atlasArcher.findRegion("archerBody2");
         archerRegion3 = atlasArcher.findRegion("archerBody3");*/
         //Sprite archerSprite = atlasArcher.createSprite("archerBody2");
         // загрузка звукового эффекта падающей капли и фоновой "музыки" дождя
-        dropSound = Gdx.audio.newSound(Gdx.files.internal("swordBlow.wav"));
+        ////dropSound = Gdx.audio.newSound(Gdx.files.internal("swordBlow.wav"));
 
 //        rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
 //        rainMusic.setLooping(true);
@@ -63,27 +64,28 @@ public class GameScreenForStudy implements Screen {
         camera.setToOrtho(false, 800, 480);
 
         // создается Rectangle для представления ведра
-        bucket = new Rectangle();
+        ////bucket = new Rectangle();
         // центрируем ведро по горизонтали
-        bucket.x = 0;//800 / 2 - 64 / 2
+        //// bucket.x = 0;//800 / 2 - 64 / 2
         // размещаем на 20 пикселей выше нижней границы экрана.
-        bucket.y = 0;
+        ////bucket.y = 0;
 
-        bucket.width = 64;
-        bucket.height = 64;
+        ////bucket.width = 64;
+        ////bucket.height = 64;
 
         animator = new Animator();
+        animator.create("output/Archer/Archers.atlas","body",0.1f);
         //animator.create(atlasArcher,0.2f);
 
         //lastRegion = archerRegion;
 
         // создает массив капель и возрождает первую
-        raindrops = new Array<Rectangle>();
-        spawnRaindrop();
+        ////raindrops = new Array<Rectangle>();
+        ////spawnRaindrop();
 
     }
 
-    private void spawnRaindrop() {
+    /*private void spawnRaindrop() {
         Rectangle raindrop = new Rectangle();
         raindrop.x = MathUtils.random(0, 800 - 64);
         raindrop.y = 480;
@@ -91,10 +93,11 @@ public class GameScreenForStudy implements Screen {
         raindrop.height = 64;
         raindrops.add(raindrop);
         lastDropTime = TimeUtils.nanoTime();
-    }
+    }*/
 
     @Override
     public void render(float delta) {
+        System.out.println("GameScreenForStudy.render\n");
         // очищаем экран темно-синим цветом.
         // Аргументы для glClearColor красный, зеленый
         // синий и альфа компонент в диапазоне [0,1]
@@ -111,11 +114,11 @@ public class GameScreenForStudy implements Screen {
         deltaTime+=delta;
 
         if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-            bucket.x -= 200 * Gdx.graphics.getDeltaTime();
+            ////bucket.x -= 200 * Gdx.graphics.getDeltaTime();
         }
         if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-            bucket.x += 200 * Gdx.graphics.getDeltaTime();
-            animator.render(true);
+            ////bucket.x += 200 * Gdx.graphics.getDeltaTime();
+            animator.render();
         /*
             if(deltaTime>0.1f) {
                 switch (lastkeyframe) {
@@ -149,11 +152,11 @@ public class GameScreenForStudy implements Screen {
         // начитаем новую серию, рисуем ведро и
         // все капли
         game.batch.begin();
-        game.font.draw(game.batch, "Drops Collected: " + dropsGathered, 0, 480);
+        ////game.font.draw(game.batch, "Drops Collected: " + dropsGathered, 0, 480);
         //game.batch.draw(lastRegion, bucket.x, bucket.y,120,120);
-        for (Rectangle raindrop : raindrops) {
+        /*for (Rectangle raindrop : raindrops) {
             game.batch.draw(dropImage, raindrop.x, raindrop.y);
-        }
+        }*/
         game.batch.end();
 
         // обработка пользовательского ввода
@@ -161,12 +164,13 @@ public class GameScreenForStudy implements Screen {
             Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
-            bucket.x = touchPos.x - 64 / 2;
+
+            ////bucket.x = touchPos.x - 64 / 2;
         }
 
 
         // убедитесь, что ведро остается в пределах экрана
-        if (bucket.x < 0)
+        /*if (bucket.x < 0)
             bucket.x = 0;
         if (bucket.x > 800 - 64)
             bucket.x = 800 - 64;
@@ -189,7 +193,7 @@ public class GameScreenForStudy implements Screen {
                 dropSound.play();
                 iter.remove();
             }
-        }
+        }*/
     }
 
     @Override
@@ -198,6 +202,7 @@ public class GameScreenForStudy implements Screen {
 
     @Override
     public void show() {
+        System.out.println("GameScreenForStudy.show\n");
         // воспроизведение фоновой музыки
 //        // когда отображается экрана
 //        rainMusic.play();
@@ -217,9 +222,9 @@ public class GameScreenForStudy implements Screen {
 
     @Override
     public void dispose() {
-        dropImage.dispose();
+        /*dropImage.dispose();
         bucketImage.dispose();
-        dropSound.dispose();
+        dropSound.dispose();*/
         rainMusic.dispose();
     }
 

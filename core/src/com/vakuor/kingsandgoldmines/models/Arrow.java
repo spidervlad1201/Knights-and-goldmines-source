@@ -11,6 +11,6 @@ public class Arrow extends GameActor {
         super(world);
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(2,1);
-        createBody(shape, BodyDef.BodyType.DynamicBody,PlayerActor.);
+        createBody(shape, BodyDef.BodyType.DynamicBody,PlayerActor.coords);
     }
 }

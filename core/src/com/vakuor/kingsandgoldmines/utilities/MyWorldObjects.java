@@ -1,35 +1,55 @@
 package com.vakuor.kingsandgoldmines.utilities;
 
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.WorldManifold;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.vakuor.kingsandgoldmines.controls.MyContactListener;
 import com.vakuor.kingsandgoldmines.controls.Player;
 
-public class MyWorldObjects{
+public class MyWorldObjects {
 
-    World world;
+    public static World world;
     public static final float worldGravity = 10;
     public static final float width=1;
     public static final float height=1;
     public static Vector2 spawnpoint;
+    public Texture background;
 
 
-    public void MyWorldObjects(){
+
+    public MyWorldObjects(){
         world = new World(new Vector2(0,-worldGravity),true);
 
-        spawnpoint = new Vector2(2,2);
+        background = new Texture("maps/"+"Land/"+"wallpaper.jpg");//Land = mapName;
+        spawnpoint = new Vector2(0,2);
 
-        world.setContactListener(new MyContactListener(world));
+        //world.setContactListener(new MyContactListener(world));
         createWorld();
     }
+    private void createWall(){
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(0,0);
+
+        Body w = world.createBody(bodyDef);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        ChainShape shape = new ChainShape();
+        shape.createChain(new Vector2[] {new Vector2(-2,2),new Vector2(-1,0), new Vector2(1,0),new Vector2(2,2)});
+        //fixtureDef.density = 2;//Всегда 0
+
+        fixtureDef.shape = shape;
+
+        w.createFixture(fixtureDef);
+
+    }
     private void createWorld(){
+        createWall();
+
         //создание игрока
         BodyDef def = new BodyDef();
         //установить тип тела

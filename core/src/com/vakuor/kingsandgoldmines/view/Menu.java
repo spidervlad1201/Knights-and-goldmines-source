@@ -21,7 +21,6 @@ public class Menu implements Screen {
     int screenHeight = Gdx.graphics.getHeight();
     int screenWidth = Gdx.graphics.getWidth();
     //float aspectRatio = 1;
-    Animator animator;
     Texture wallpaper;
 
     Stage stage;
@@ -29,12 +28,11 @@ public class Menu implements Screen {
     private OrthographicCamera camera;
 
     public Menu(final Main game){
+        System.out.println("Menu.constructor\n");
         this.game = game;
         camera = new OrthographicCamera();
         //viewport = new ScreenViewport(camera);
 
-        animator = new Animator();
-        animator.create();
         wallpaper = new Texture(Gdx.files.internal("wallpaper.jpg"));
         camera.setToOrtho(false, 800, 480);
 
@@ -45,18 +43,20 @@ public class Menu implements Screen {
 
     @Override
     public void show() {
+        System.out.println("Menu.show\n");
+
     }
 
     @Override
     public void render(float delta) {
+        System.out.println("Menu.render\n");
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
-
         menuMusic.play();
-        animator.render();
+        //animator.render();
         game.batch.begin();
 
         game.batch.draw(wallpaper,0,0,screenWidth,screenHeight);
@@ -66,7 +66,7 @@ public class Menu implements Screen {
         game.batch.end();
 
         if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            game.setScreen(new GameScreenForStudy(game));
+            game.setScreen(new Bod2DLesson(game));
             dispose();
         }
     }
@@ -99,7 +99,6 @@ public class Menu implements Screen {
         //game.dispose();
 
         menuMusic.dispose();
-        animator.dispose();
     }
 
 }

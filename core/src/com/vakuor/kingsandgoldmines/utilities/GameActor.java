@@ -14,6 +14,7 @@ public class GameActor extends Actor {
     World world;
     Body body;
     Sprite sprite;
+    public static Vector2 coords;
 
     public GameActor(World world){
         this.world = world;

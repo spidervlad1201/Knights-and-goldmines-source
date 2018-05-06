@@ -28,6 +28,9 @@ public class Animator implements ApplicationListener {
 
     private Array<TextureAtlas.AtlasRegion> frames;
 
+    private int indexes;
+    private int index = 0;
+
     private Animation animation;
     private TextureAtlas textureAtlas;
     private Array<TextureAtlas.AtlasRegion> atlasRegions;
@@ -37,6 +40,7 @@ public class Animator implements ApplicationListener {
 
     @Override
     public void create() {
+
         walkSheet = new Texture(Gdx.files.internal("animation_sheet.png"));
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/FRAME_COLS, walkSheet.getHeight()/FRAME_ROWS);
         walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
@@ -52,8 +56,10 @@ public class Animator implements ApplicationListener {
     }
 
     public void create(String action, float frameTime){
+        System.out.println("Animator.create "+action+" "+frameTime+"\n");
         //textureAtlas = new TextureAtlas(internalPackFile);
         frames =  textureAtlas.findRegions(action);
+        indexes = frames.size;
         animation = new Animation(frameTime,frames);
         stateTime = 0f;
     }
@@ -98,21 +104,31 @@ public class Animator implements ApplicationListener {
 
     @Override
     public void render() {
+        System.out.println("Animator.render");
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         stateTime += Gdx.graphics.getDeltaTime();
 
-        currentFrame = (TextureRegion) walkAnimation.getKeyFrame(stateTime, true);
+        //currentFrame = (TextureRegion) walkAnimation.getKeyFrame(stateTime, true);
 
+        //frames.get();
+        if((frames.get(index))==null) {
+            System.out.println("not null");
+        }
+        else System.out.println("null");
         spriteBatch.begin();
-        spriteBatch.draw(currentFrame, 50, 50);
+        //spriteBatch.draw(currentFrame, 50, 50);
+        spriteBatch.draw(frames.get(index),5,5);
         spriteBatch.end();
+        if(index < indexes)index++;
+        else index = 0;
     }
 
     public void render(boolean a) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         stateTime += Gdx.graphics.getDeltaTime();
 
-        currentFrame = (TextureRegion) animation.getKeyFrame(stateTime, true);
+        //currentFrame = (TextureRegion) animation.getKeyFrame(stateTime, true);
+
 
         spriteBatch.begin();
         spriteBatch.draw(currentFrame, 50, 50);
