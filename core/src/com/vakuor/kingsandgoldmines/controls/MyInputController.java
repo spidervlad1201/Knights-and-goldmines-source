@@ -1,5 +1,7 @@
 package com.vakuor.kingsandgoldmines.controls;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
 public class MyInputController implements InputProcessor {
@@ -10,6 +12,12 @@ public class MyInputController implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+
+        Gdx.app.log("keycode",""+keycode);
+        switch (keycode){
+            case Input.Keys.A:{
+                System.out.println("A pressed");break;}
+        }
         return false;
     }
 

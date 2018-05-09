@@ -1,8 +1,100 @@
 package com.vakuor.kingsandgoldmines.view;
 
-import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.vakuor.kingsandgoldmines.Main;
+import com.vakuor.kingsandgoldmines.tools.GifDecoder;
+import com.vakuor.kingsandgoldmines.utilities.byMax.LoadingBarActor;
 
-public class LoadingScreen {
+public class LoadingScreen implements Screen {
+
+    private Main game;
+
+    private Stage stage;
+    private Actor loadingBar;
+    Animation<TextureRegion> animation;
+    float elapsed;
+
+    //private Viewport viewport;
+    //private OrthographicCamera camera;
+
+
+    //ScreenViewport viewport;
+
+    public LoadingScreen(Main game) {
+        System.out.println("LoadingScreen.constructor\n");
+        this.game = game;
+
+        //game.manager.load("",.class);
+        //game.manager.finishLoading();
+        stage = new Stage();
+        //camera = new OrthographicCamera();
+        animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP,Gdx.files.internal("visual/animations/trump.gif").read() );
+        loadingBar = new LoadingBarActor(animation);
+        loadingBar.setPosition(Menu.screenWidth/2-loadingBar.getWidth()/2,Menu.screenHeight/2-loadingBar.getHeight()/2);
+        //viewport = new ScreenViewport(camera);
+        //camera.setToOrtho(false, 800, 480);
+    }
+
+    @Override
+    public void show() {
+        System.out.println("Menu.show\n");
+        stage.addActor(loadingBar);
+    }
+
+    @Override
+    public void render(float delta) {
+        System.out.println("LoadingScreen.render\n");
+
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//        camera.update();
+//        game.batch.setProjectionMatrix(camera.combined);
+
+        elapsed += delta;
+
+        stage.act(delta);
+        stage.draw();
+
+        //game.batch.begin();
+        //game.batch.draw(animation.getKeyFrame(elapsed),0,0);
+        //game.batch.end();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        //width = 480*width/height;
+        //height = 480;
+        //stage.setViewport(width, height,Viewport viewport = new ScreenViewport());
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+
+}
 //    long loadStart = TimeUtils.nanoTime();
 //    public PreloaderCallback getPreloaderCallback () {
 //        final Canvas canvas = Canvas.createIfSupported();
@@ -42,4 +134,4 @@ public class LoadingScreen {
 //            }
 //        };
 //    }
-}
+

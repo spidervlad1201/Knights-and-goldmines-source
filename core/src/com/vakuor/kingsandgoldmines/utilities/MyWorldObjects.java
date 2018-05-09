@@ -1,6 +1,7 @@
 package com.vakuor.kingsandgoldmines.utilities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -18,14 +19,19 @@ public class MyWorldObjects {
     public static final float height=1;
     public static Vector2 spawnpoint;
     public Texture background;
+    private Vector2 worldSize;
+    private Vector2 blockSize;
 
 
 
-    public MyWorldObjects(){
+
+    public MyWorldObjects() {
         world = new World(new Vector2(0,-worldGravity),true);
 
-        background = new Texture("maps/"+"Land/"+"wallpaper.jpg");//Land = mapName;
+        background = new Texture("visual/images/wallpaper.jpg");//Land = mapName;
         spawnpoint = new Vector2(0,2);
+        worldSize = new Vector2(2,2);
+        blockSize  = new Vector2(10,10);
 
         //world.setContactListener(new MyContactListener(world));
         createWorld();
@@ -39,7 +45,7 @@ public class MyWorldObjects {
 
         FixtureDef fixtureDef = new FixtureDef();
         ChainShape shape = new ChainShape();
-        shape.createChain(new Vector2[] {new Vector2(-2,2),new Vector2(-1,0), new Vector2(1,0),new Vector2(2,2)});
+        shape.createChain(new Vector2[] {new Vector2(0,worldSize.y),new Vector2(0,0), new Vector2(worldSize.x,0),worldSize});
         //fixtureDef.density = 2;//Всегда 0
 
         fixtureDef.shape = shape;
@@ -51,12 +57,12 @@ public class MyWorldObjects {
         createWall();
 
         //создание игрока
-        BodyDef def = new BodyDef();
+        ////BodyDef def = new BodyDef();
         //установить тип тела
-        def.type = BodyDef.BodyType.DynamicBody;
+        ////def.type = BodyDef.BodyType.DynamicBody;
         //создать объект с определёнными заранее параметрами
-        Body boxP = world.createBody(def);
-        Player player = new Player(boxP);
+        ////Body boxP = world.createBody(def);
+        ////Player player = new Player(boxP);
         //переместить объект по указанным координатам
         //player.getBody().setTransform(1.0f, 4.0f, 0);
        // player.getBody().setFixedRotation(true);
@@ -65,13 +71,12 @@ public class MyWorldObjects {
         //platforms.add(new MovingPlatform(world, 3F, 3, 1,0.25F, 2, 0, 2));
 
         //создание блоков
-        for(int i=0;i<width; ++i){
-            Body boxGround = createBlock(BodyDef.BodyType.StaticBody, 0.5F, 0.5F, 2);
-            boxGround.setTransform(i,0,0);
-            boxGround.getFixtureList().get(0).setUserData("bd");
-            boxGround = createBlock(BodyDef.BodyType.StaticBody, 0.5F, 0.5F, 0);
-            boxGround.setTransform(i,height-1,0);
-            boxGround.getFixtureList().get(0).setUserData("b");
+        for(int i=1;i<=worldSize.x; i++){
+            for(int j=1;j<=worldSize.y;j++) {
+                Body boxGround = createBlock(BodyDef.BodyType.StaticBody, blockSize.x, blockSize.y, 0);
+                boxGround.setTransform(blockSize.x*(i*2-1), blockSize.y*(j*2-1), 0);
+                boxGround.getFixtureList().get(0).setUserData("bd");
+            }
         }
     }
 

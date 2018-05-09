@@ -12,7 +12,7 @@ public class DesktopLauncher {
 		config.title = "Knights and swords";
 		config.width = 800;
 		config.height = 480;
-
+		//TexturePacker.process("input/Block", "output/Block", "Block");
 		//TexturePacker.process("input/Head", "output/Head", "Heads");
 		//TexturePacker.process("input/Archer", "output/Archer", "Archers");
 		new LwjglApplication(new Main(), config);

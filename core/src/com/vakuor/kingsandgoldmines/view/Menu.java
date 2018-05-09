@@ -7,10 +7,13 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.vakuor.kingsandgoldmines.Main;
+import com.vakuor.kingsandgoldmines.tools.GifDecoder;
 import com.vakuor.kingsandgoldmines.utilities.Animator;
 
 public class Menu implements Screen {
@@ -18,25 +21,34 @@ public class Menu implements Screen {
     private final Main game;
 
     Music menuMusic;
-    int screenHeight = Gdx.graphics.getHeight();
-    int screenWidth = Gdx.graphics.getWidth();
+    public static int screenHeight = Gdx.graphics.getHeight();
+    public static int screenWidth = Gdx.graphics.getWidth();
     //float aspectRatio = 1;
     Texture wallpaper;
+    float elapsed;
 
     Stage stage;
     private Viewport viewport;
     private OrthographicCamera camera;
+
+
+    Animation<TextureRegion> animation;
 
     public Menu(final Main game){
         System.out.println("Menu.constructor\n");
         this.game = game;
         camera = new OrthographicCamera();
         //viewport = new ScreenViewport(camera);
+        game.manager.load("visual/images/wallpaper.jpg",Texture.class);
+        game.manager.load("visual/music/mainmenutheme.wav",Music.class);
+        game.manager.finishLoading();
 
-        wallpaper = new Texture(Gdx.files.internal("wallpaper.jpg"));
+        wallpaper = game.manager.get("visual/images/wallpaper.jpg");
+
         camera.setToOrtho(false, 800, 480);
 
-        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("mainmenutheme.wav"));
+        menuMusic = game.manager.get("visual/music/mainmenutheme.wav");
+        //menuMusic = Gdx.audio.newMusic(Gdx.files.internal("visual/music/mainmenutheme.wav"));
         menuMusic.setLooping(true);
 
     }
@@ -44,29 +56,32 @@ public class Menu implements Screen {
     @Override
     public void show() {
         System.out.println("Menu.show\n");
-
     }
 
     @Override
     public void render(float delta) {
-        System.out.println("Menu.render\n");
+        //System.out.println("Menu.render\n");
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
+        elapsed += delta;
+
         menuMusic.play();
         //animator.render();
         game.batch.begin();
+
 
         game.batch.draw(wallpaper,0,0,screenWidth,screenHeight);
         game.font.draw(game.batch, "Welcome to Knights and Goldmines", 100, 150);
         game.font.draw(game.batch, "Tap anywhere to begin", 100, 100);
 
+        //game.batch.draw(animation.getKeyFrame(elapsed),0,0);
         game.batch.end();
 
         if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            game.setScreen(new Bod2DLesson(game));
+            game.setScreen(new MainGameScreen(game));
             dispose();
         }
     }
