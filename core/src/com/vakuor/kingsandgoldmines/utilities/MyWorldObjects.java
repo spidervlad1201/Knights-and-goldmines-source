@@ -1,7 +1,15 @@
 package com.vakuor.kingsandgoldmines.utilities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -9,9 +17,17 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.vakuor.kingsandgoldmines.Main;
 import com.vakuor.kingsandgoldmines.controls.Player;
+import com.vakuor.kingsandgoldmines.view.Menu;
+
+import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 public class MyWorldObjects {
+
+    Main game;
 
     public static World world;
     public static final float worldGravity = 10;
@@ -22,19 +38,72 @@ public class MyWorldObjects {
     private Vector2 worldSize;
     private Vector2 blockSize;
 
+    public TiledMap map;
+    public MapLayer layer;
+    public MapObjects mapObjects;
+    TiledMapTileSet tileSet;
 
+    public MyWorldObjects(Main game){
 
-
-    public MyWorldObjects() {
+        this.game = game;
         world = new World(new Vector2(0,-worldGravity),true);
 
         background = new Texture("visual/images/wallpaper.jpg");//Land = mapName;
         spawnpoint = new Vector2(0,2);
-        worldSize = new Vector2(2,2);
-        blockSize  = new Vector2(10,10);
+        worldSize = new Vector2(64,32);
+        blockSize  = new Vector2(8,8);
 
+        //layer = map.getLayers().get(0);
+
+        map = new TmxMapLoader().load("logical/maps/Map/map.tmx");
+        //tileSet = map.getTileSets().getTileSet(0);
+        if(map!=null) System.out.println("notnullmap");
+        System.out.println(map.getLayers().getCount());
+        //if(tileSet!=null)System.out.println("notnull");
+//        System.out.println(tileSet.getTile(0).
+//                getObjects().getCount());
+        System.out.println(map.getLayers().get(0).getObjects().getCount());
+        System.out.println(map.getLayers().get(1).getObjects().getCount());
+        //Gdx.app.exit();
+        System.out.println("asd");
+        //map.getTileSets().addTileSet();
+        //game.manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        //game.manager.load("logical/maps/Land/Land.tmx",TiledMap.class);
+        //game.manager.finishLoading();
+        //isLoaded();
+        //System.out.println("Next");
+        //map = game.manager.get("logical/maps/Land/Land.tmx");
+        layer = map.getLayers().get(0);
+        //Iterator<String> iter = map.getTileSets().getTileSet(0).getProperties().getKeys();
+        //while (iter.hasNext()) { System.out.println(iter.next()); iter.remove(); }
+        //map.getTileSets().getTileSet(0).
+        mapObjects = layer.getObjects();
+        //layer.getObjects().get(0).getProperties().put();
+        /*for(int i=0;i<25;i++)
+        System.out.println(map.getTileSets().getTile(i).getId());
+        System.out.println(map.getTileSets().getTileSet(0).getTile(0).
+                getObjects().getCount());*/
+        //System.out.println(mapObjects.getCount());
         //world.setContactListener(new MyContactListener(world));
         createWorld();
+        /* iter.Keys
+imageheight
+spacing
+imagewidth
+firstgid
+tileheight
+tilewidth
+margin
+imagesource*/
+    }
+    private void isLoaded() {
+
+        try{game.manager.finishLoading();}
+        catch (GdxRuntimeException ex){isLoaded();}
+        finally {
+            isLoaded();
+        }
+
     }
     private void createWall(){
         BodyDef bodyDef = new BodyDef();
@@ -54,7 +123,7 @@ public class MyWorldObjects {
 
     }
     private void createWorld(){
-        createWall();
+        //createWall();
 
         //создание игрока
         ////BodyDef def = new BodyDef();

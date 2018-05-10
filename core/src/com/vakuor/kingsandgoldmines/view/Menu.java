@@ -21,8 +21,8 @@ public class Menu implements Screen {
     private final Main game;
 
     Music menuMusic;
-    public static int screenHeight = Gdx.graphics.getHeight();
-    public static int screenWidth = Gdx.graphics.getWidth();
+    public static int screenWidth;
+    public static int screenHeight;
     //float aspectRatio = 1;
     Texture wallpaper;
     float elapsed;
@@ -56,6 +56,10 @@ public class Menu implements Screen {
     @Override
     public void show() {
         System.out.println("Menu.show\n");
+        screenWidth  = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
+        System.out.println(screenWidth+"x"+screenHeight);
+        game.aspectRatio = (float) screenWidth/screenHeight;
     }
 
     @Override
@@ -91,6 +95,7 @@ public class Menu implements Screen {
         //aspectRatio = (float) width/height;
         screenHeight = height;
         screenWidth = width;
+        game.aspectRatio = (float) screenWidth/screenHeight;
         //viewport.update(width, height);
     }
 

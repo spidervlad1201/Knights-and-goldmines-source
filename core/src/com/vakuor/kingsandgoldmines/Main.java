@@ -14,6 +14,7 @@ public class Main extends Game {
 	public AssetManager manager;
 	public static int fps;
 	private int frames;
+	public static float aspectRatio;
 
 	long javaHeap;//лишнее
 	long nativeHeap;//лишнее

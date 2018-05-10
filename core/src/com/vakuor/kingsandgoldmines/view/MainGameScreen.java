@@ -2,10 +2,10 @@ package com.vakuor.kingsandgoldmines.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -18,6 +18,7 @@ public class MainGameScreen implements Screen {
     Stage stage;
     Box2DDebugRenderer rend;
     MyWorldObjects objects;
+    OrthogonalTiledMapRenderer mapRenderer;
 
     private OrthographicCamera camera;
 
@@ -32,12 +33,18 @@ public class MainGameScreen implements Screen {
         //camera.setToOrtho(false, 800, 480);//лишнее?
         stage = new Stage(new ScreenViewport(camera));
 
-        objects = new MyWorldObjects();
+        objects = new MyWorldObjects(game);
 
         camera.position.set(0,0,0);//stage.getHeight()/2
 
         stage.setDebugAll(true);//debug lines
         rend = new Box2DDebugRenderer();
+        //System.out.println(game.aspectRatio);
+        //System.out.println((float)4/3);
+       // float unitScale = game.aspectRatio;
+        float unitScale = 4/3f;
+        mapRenderer = new OrthogonalTiledMapRenderer(objects.map,unitScale);
+        mapRenderer.setView(camera);
 //        createRect();
 //        createWall();
 
@@ -48,6 +55,9 @@ public class MainGameScreen implements Screen {
     public void render(float delta) {
         //System.out.println("MainGameScreen.render");
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if(Gdx.input.isKeyPressed(Input.Keys.W)) camera.position.set(camera.position.x,camera.position.y+=5,camera.position.z);
+
         camera.update();
 
        // if(Gdx.input.isKeyPressed(Input.Keys.D))
@@ -56,6 +66,8 @@ public class MainGameScreen implements Screen {
         objects.world.step((float)1/ game.fps,4,4);
         rend.render(objects.world,camera.combined);
         stage.draw();
+        mapRenderer.render();
+
     }
 
     @Override
